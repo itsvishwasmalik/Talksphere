@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
+import StudyRoom from "./StudyRoom/StudyRoom";
 
 const Home = () => {
     useEffect(() => {
@@ -8,7 +9,7 @@ const Home = () => {
 
     return (
         <Box sx={{ margin: 0, padding: 0 }}>
-           Hello
+            <StudyRoom />
         </Box>
     );
 };
