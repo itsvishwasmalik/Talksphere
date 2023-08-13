@@ -5,9 +5,9 @@ export const theme = (mode) =>
         palette: {
             mode: mode,
             background: {
-                default: mode === "dark" ? "#2f2f2f" : "#fff",
-                paper: mode === "dark" ? "#121212" : "#fff",
-                contrast: mode === "dark" ? "#121212" : "#303f9f",
+                default: "#3F4156",
+                paper: "#2D2D39",
+                contrast: "#fff",
             },
             text: {
                 primary: mode === "dark" ? "#fff" : "#212121",
@@ -16,15 +16,15 @@ export const theme = (mode) =>
                 disabled: "rgba(255, 255, 255, 0.5)",
             },
             primary: {
-                main: "#303f9f",
-                light: "#5965B2",
-                dark: "#212C6F",
+                main: "#696D97",
+                light: "#9FA8DA",
+                dark: "#303F9F",
                 contrastText: "#fff",
             },
             secondary: {
-                main: "#ffea00",
-                light: "#FFEE33",
-                dark: "#B2A300",
+                main: "#67C4DD",
+                light: "#B2EBF2",
+                dark: "#00ACC1",
                 contrastText: "rgba(0, 0, 0, 0.87)",
             },
             error: {

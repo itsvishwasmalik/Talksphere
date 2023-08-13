@@ -7,10 +7,19 @@ import Avatar from "@mui/material/Avatar";
 import Link from "@mui/material/Link";
 import Divider from "@mui/material/Divider";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import { useTheme } from "@emotion/react";
+import { getAvatarColors, getTimeDifference } from "../../../utils";
 
-const SingleRoomHeader = () => {
+const SingleRoomHeader = ({ room }) => {
+    const theme = useTheme();
+
     return (
-        <Card sx={{ backgroundColor: "#404040", margin: "15px" }}>
+        <Card
+            sx={{
+                backgroundColor: theme.palette.background.default,
+                margin: "15px",
+            }}
+        >
             <CardActionArea>
                 <CardContent>
                     <Box
@@ -19,8 +28,8 @@ const SingleRoomHeader = () => {
                             justifyContent: "space-between",
                             alignItems: "center",
                             marginTop: "10px",
-                            paddingLeft: "25px",
-                            paddingRight: "25px",
+                            paddingLeft: "15px",
+                            paddingRight: "15px",
                         }}
                     >
                         <Box
@@ -31,29 +40,37 @@ const SingleRoomHeader = () => {
                             }}
                         >
                             <Avatar
-                                alt="White Devil"
-                                src="/static/images/avatar/1.jpg"
-                            />
+                                sx={{
+                                    backgroundColor: getAvatarColors(room.host),
+                                }}
+                            >
+                                {room.host[0].toUpperCase()}
+                            </Avatar>
                             <Box sx={{ marginLeft: "10px" }}>
                                 <Typography
                                     component={Link}
-                                    sx={{ color: "#E5E5E5" }}
+                                    sx={{
+                                        color: theme.palette.secondary.main,
+                                        textDecoration: "none",
+                                    }}
                                 >
-                                    @whitedevil
+                                    @{room.host}
                                 </Typography>
                             </Box>
                         </Box>
                         <Box>
-                            <Typography>2 months, 1 week ago</Typography>
+                            <Typography sx={{ fontSize: "12px" }}>
+                                {getTimeDifference(room.created)} ago
+                            </Typography>
                         </Box>
                     </Box>
                     <Typography
                         gutterBottom
                         variant="h6"
                         component="div"
-                        sx={{ padding: "20px" }}
+                        sx={{ padding: "10px 0px 10px 20px" }}
                     >
-                        Calling All Java Developers !
+                        {room.name}
                     </Typography>
                     <Divider />
                     <Box
@@ -77,21 +94,23 @@ const SingleRoomHeader = () => {
                             <Box sx={{ marginLeft: "10px" }}>
                                 <Typography
                                     component={Link}
-                                    sx={{ color: "#E5E5E5" }}
+                                    sx={{ color: "#E5E5E5", fontSize: "12px" }}
                                 >
-                                    0 Joined
+                                    {room.participants} Joined
                                 </Typography>
                             </Box>
                         </Box>
                         <Box
                             sx={{
-                                backgroundColor: "#A3A3A3",
+                                backgroundColor: theme.palette.background.paper,
                                 borderRadius: "10px",
-                                paddingLeft: "15px",
+                                padding: "5px 15px 5px 15px",
                                 paddingRight: "15px",
                             }}
                         >
-                            <Typography>Java</Typography>
+                            <Typography sx={{ fontSize: "12px" }}>
+                                {room.topic}
+                            </Typography>
                         </Box>
                     </Box>
                 </CardContent>

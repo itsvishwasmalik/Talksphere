@@ -4,6 +4,7 @@ import accountReducer from "./account";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import themeReducer from "./slices/theme";
+import topicsReducer from "./slices/topics";
 
 const rootPersistConfig = {
     key: "root",
@@ -15,6 +16,7 @@ const reducer = combineReducers({
     account: accountReducer,
     snackbar: snackbarReducer,
     theme: themeReducer,
+    topics: topicsReducer,
 });
 
 export default persistReducer(rootPersistConfig, reducer);

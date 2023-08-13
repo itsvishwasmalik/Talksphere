@@ -66,17 +66,22 @@ def registerPage(request):
 
 
 def home(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    query = None
+
+    if request.GET.get('q') != None:
+        query = request.GET.get('q').lower()
+    else:
+        query = ''
 
     rooms = Room.objects.filter(
-        Q(topic__name__icontains=q) | 
-        Q(name__icontains=q) |
-        Q(description__icontains = q)
+        Q(topic__name__icontains=query) | 
+        Q(name__icontains=query) |
+        Q(description__icontains = query)
     )
 
     topics = Topic.objects.all()[0:5]
     room_count = rooms.count()
-    room_messages = Message.objects.filter(Q(room__topic__name__icontains = q))
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains = query))
 
     context = {'rooms':rooms, 'topics':topics, 'room_count': room_count, 'room_messages': room_messages }
     return render(request, 'base/home.html', context)
