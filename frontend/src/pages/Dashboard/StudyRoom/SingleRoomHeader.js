@@ -9,9 +9,15 @@ import Divider from "@mui/material/Divider";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { useTheme } from "@emotion/react";
 import { getAvatarColors, getTimeDifference } from "../../../utils";
+import { useNavigate } from "react-router-dom";
 
 const SingleRoomHeader = ({ room }) => {
     const theme = useTheme();
+    const navigate = useNavigate(); 
+    const routeChange = () =>{ 
+        let path = `/new/get_room/${room.id}`; 
+        navigate(path);
+    }
 
     return (
         <Card
@@ -20,7 +26,7 @@ const SingleRoomHeader = ({ room }) => {
                 margin: "15px",
             }}
         >
-            <CardActionArea>
+            <CardActionArea onClick={routeChange}>
                 <CardContent>
                     <Box
                         sx={{

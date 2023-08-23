@@ -44,13 +44,15 @@ def get_room(request, pk):
             'name': room.name,
             'description': room.description,
             'topic': room.topic.name,
+            'created': room.created,
+            'host': room.host.username,
             'participants': [participant.username for participant in participants]
         },
         'room_messages': [{
             'id': message.id,
             'user': message.user.username,
             'body': message.body,
-            'timestamp': message.timestamp
+            'created': message.created
         } for message in room_messages],
         'participants': [participant.username for participant in participants]
     })

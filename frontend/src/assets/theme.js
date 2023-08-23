@@ -8,6 +8,7 @@ export const theme = (mode) =>
                 default: "#3F4156",
                 paper: "#2D2D39",
                 contrast: "#fff",
+                light: "#6366f1",
             },
             text: {
                 primary: mode === "dark" ? "#fff" : "#212121",
@@ -56,6 +57,7 @@ export const theme = (mode) =>
                 grey100: "#f5f5f5",
                 grey200: "#eeeeee",
                 grey300: "#e0e0e0",
+                grey400: "#a3a3a3",
                 grey500: "#9e9e9e",
                 grey600: "#757575",
                 grey700: "#616161",

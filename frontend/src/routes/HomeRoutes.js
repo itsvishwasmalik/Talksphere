@@ -3,6 +3,7 @@ import SearchBar from "../components/SearchBar";
 import User from "../pages/User";
 import NotFound from "../utils/NotFound";
 import AuthGuard from "./route-guards/AuthGuard";
+import Room from "../pages/Components/Room";
 
 const HomeRoute = {
     path: "/",
@@ -19,6 +20,22 @@ const HomeRoute = {
         },
     ],
 };
+
+const RoomRoute = {
+    path: "/new/get_room/:roomId",
+    element: (
+        <AuthGuard>
+            <SearchBar/>
+            <Room />
+        </AuthGuard>
+    ),
+    // children: [
+    //     {
+    //         path: "getroom",
+    //         element: <Home />,
+    //     },
+    // ],
+}
 
 const UserRoute = {
     path: "/user",
@@ -40,6 +57,6 @@ const NotFoundRoute = {
     ),
 };
 
-const HomeRoutes = [HomeRoute, UserRoute, NotFoundRoute];
+const HomeRoutes = [HomeRoute, RoomRoute, UserRoute, NotFoundRoute];
 
 export default HomeRoutes;
