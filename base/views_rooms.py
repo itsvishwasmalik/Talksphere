@@ -2,7 +2,7 @@ from .models import Room, Topic, Message
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from rest_framework import status
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # @api_view(['POST'])
 # def room(request, pk):
@@ -24,15 +24,23 @@ from rest_framework import status
 #         'participants': participants
 #     })
 
+def get_user_from_access_token(request):
+    # access_token = request.headers.get('Authorization').split(' ')[1]
+    access_token = request.headers.get('Authorization')
+    print ('access_token-----',access_token)
+    user = RefreshToken(access_token).get('user')
+    return user
+
 @api_view(['GET',"POST"])
 def get_room(request, pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all()
     participants = room.participants.all()
+    user = get_user_from_access_token(request)
 
     if request.method == 'POST':
         message = Message.objects.create(
-            user=request.user,
+            user=user,
             room=room,
             body=request.POST.get('body')
         )
