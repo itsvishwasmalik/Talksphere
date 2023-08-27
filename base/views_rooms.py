@@ -2,6 +2,7 @@ from .models import Room, Topic, Message
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from rest_framework import status
+from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
 # @api_view(['POST'])
@@ -25,26 +26,37 @@ from rest_framework_simplejwt.tokens import RefreshToken
 #     })
 
 def get_user_from_access_token(request):
-    # access_token = request.headers.get('Authorization').split(' ')[1]
-    access_token = request.headers.get('Authorization')
-    print ('access_token-----',access_token)
-    user = RefreshToken(access_token).get('user')
+    access_token = request.headers.get('Authorization').split(' ')[1]
+    user = RefreshToken(access_token).payload['user_id']
+    print(user)
     return user
 
-@api_view(['GET',"POST"])
+@api_view(['GET', 'POST'])
 def get_room(request, pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all()
     participants = room.participants.all()
-    user = get_user_from_access_token(request)
+    user = User.objects.get(username='whitedevil')
 
     if request.method == 'POST':
+        print(request.POST)
+        body = request.data.get('body')
         message = Message.objects.create(
             user=user,
             room=room,
-            body=request.POST.get('body')
+            body=body
         )
-        room.participants.add(request.user)
+        room.participants.add(user)
+
+        return JsonResponse({
+            'message': {
+                'id': message.id,
+                'user': message.user.username,
+                'body': message.body,
+                'created': message.created
+            }
+
+        })
 
     return JsonResponse({
         'room': {
@@ -66,27 +78,110 @@ def get_room(request, pk):
     })
     
 
+# @api_view(['POST'])
+# def create_room(request):
+#     topic_name = request.POST.get('topic')
+#     topic, created = Topic.objects.get_or_create(name=topic_name)
+
+#     room = Room.objects.create(
+#         host=request.user,
+#         topic=topic,
+#         name=request.POST.get('name'),
+#         description=request.POST.get('description')
+#     )
+
+#     room_dict = {
+#         'id': room.id,
+#         'name': room.name,
+#         'description': room.description,
+#         'topic': room.topic.name,
+#         # 'participants': [participant.username for participant in room.participants.all()]
+#     }
+#     return JsonResponse(room_dict, status=status.HTTP_201_CREATED)
+
+
 @api_view(['POST'])
 def create_room(request):
-    topic_name = request.POST.get('topic')
+    topic_name = request.data.get('topic')
+    room_name = request.data.get('name')
+    room_description = request.data.get('description')
+    # user = get_user_from_access_token(request)
+    # access_token = request.headers.get('Authorization').split(' ')[1]
+    # authorization_header = request.headers.get('Authorization')
+    # if authorization_header and authorization_header.startswith('Bearer '):
+    #     access_token = authorization_header.split(' ')[1]
+    # else:
+    #     # Handle the absence of a valid Authorization header
+    #     return JsonResponse({'error': 'Missing or invalid Authorization header'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    # access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyOTU4NTQwLCJpYXQiOjE2OTI5NTgyNDAsImp0aSI6IjEzY2NiZjU4NjliMDQzNTdhZjIzZWI1ZDViOGQwMGY0IiwidXNlcl9pZCI6MX0.o-PymK93_Q8k6Nt0MWP31Qo_8PTNJu7zLlAPkdezgek'
+    # refresh_token = RefreshToken(access_token)
+
+    # refresh_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5MzA0NDY0MCwiaWF0IjoxNjkyOTU4MjQwLCJqdGkiOiIzOTc1NmY4ZTQzNGM0YmIwOWRiNWZkMTQ1NTI0MmJmMSIsInVzZXJfaWQiOjF9.BfnWkGRVTn0oLZzEQR9nFeWfcDWgFnuFe_LqhlYqJ_0'
+    # user = User.objects.get(id=refresh_token.payload['user_id'])
+
+    # print(user)
+
+    user = User.objects.get(username='whitedevil')
+
     topic, created = Topic.objects.get_or_create(name=topic_name)
 
     room = Room.objects.create(
-        host=request.user,
+        host=user,
         topic=topic,
-        name=request.POST.get('name'),
-        description=request.POST.get('description')
+        name=room_name,
+        description=room_description,
     )
 
+    room.participants.add(user)
+
     room_dict = {
+        'created': room.created,
+        'host': room.host.username,
         'id': room.id,
         'name': room.name,
-        'description': room.description,
+        'participants': room.participants.all().count(),
         'topic': room.topic.name,
-        # 'participants': [participant.username for participant in room.participants.all()]
     }
+
     return JsonResponse(room_dict, status=status.HTTP_201_CREATED)
 
+@api_view(['POST'])
+def delete_room(request, pk):
+    room = Room.objects.get(id=pk)
+    room.delete()
+    return JsonResponse({
+        'message': 'Room deleted successfully'
+    })
+
+
+@api_view(['POST'])
+def update_room(request, pk):
+    room = Room.objects.get(id=pk)
+    topic_name = request.data.get('topic')
+    topic, created = Topic.objects.get_or_create(name=topic_name)
+    room.topic = topic
+    room.name = request.data.get('name')
+    room.description = request.data.get('description')
+    room.save()
+
+    return JsonResponse({
+        'name': room.name,
+        'topic': room.topic.name,
+        'description': room.description,
+        'message': 'Room updated successfully'
+    })
+
+
+@api_view(['POST'])
+def delete_message(request, pk):
+    message = Message.objects.get(id=pk)
+    participant = message.room.participants.get(id=message.user.id)
+    message.room.participants.remove(participant)
+    message.delete()
+    return JsonResponse({
+        'message': 'Message deleted successfully'
+    })
 
 @api_view(['GET'])
 def get_browse_topics(request):

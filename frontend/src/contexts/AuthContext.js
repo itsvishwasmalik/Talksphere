@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         }
     );
 
-    if ("user" in state && state.user && "jwt_access" in state.user) {
+    if ("user" in state && state.user && "accessToken" in state.user) {
         axios.defaults.headers.common["Authorization"] =
             "Bearer " + state.user.accessToken;
     }

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Backdrop, Box, Modal } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -6,21 +6,33 @@ import SingleRoomHeader from "./SingleRoomHeader";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTheme } from "@emotion/react";
+import RoomForm from "../../Components/RoomForm";
+import { useDispatch, useSelector } from "react-redux";
+import { setRooms } from "../../../store/slices/rooms";
+import Loader from "../../../utils/Loader";
 
 const StudyRoom = () => {
     const theme = useTheme();
-    const [rooms, setRooms] = useState([]);
+    const dispatch = useDispatch();
+    const rooms = useSelector((state) => state.rooms.rooms);
     const [loading, setLoading] = useState(false);
+    const [openRoomForm, setOpenRoomForm] = useState(false);
 
     const fetchRooms = async () => {
         try {
             setLoading(true);
             const { data } = await axios.get("/new/rooms/");
-            setRooms(data.rooms);
+            dispatch(setRooms(data.rooms));
             setLoading(false);
         } catch (err) {
             console.log(err);
         }
+    };
+
+    console.log("rooms", rooms);
+
+    const handleRoomForm = () => {
+        setOpenRoomForm(!openRoomForm);
     };
 
     useEffect(() => {
@@ -29,6 +41,7 @@ const StudyRoom = () => {
 
     return (
         <>
+            {loading && <Loader />}
             <Box
                 sx={{
                     display: "flex",
@@ -65,12 +78,13 @@ const StudyRoom = () => {
                             fontSize: "12px",
                         }}
                     >
-                        8 rooms availalble
+                        {rooms.length} rooms availalble
                     </Typography>
                 </Box>
                 <Button
                     variant="contained"
                     startIcon={<AddIcon />}
+                    onClick={handleRoomForm}
                     sx={{
                         backgroundColor: theme.palette.secondary.dark,
                         ":hover": {
@@ -86,6 +100,19 @@ const StudyRoom = () => {
                     <SingleRoomHeader key={index} room={room} />
                 ))}
             </Box>
+
+            <Modal
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+                closeAfterTransition
+                open={openRoomForm}
+                onClose={() => !openRoomForm}
+            >
+                <RoomForm setOpenRoomForm={setOpenRoomForm} />
+            </Modal>
         </>
     );
 };
