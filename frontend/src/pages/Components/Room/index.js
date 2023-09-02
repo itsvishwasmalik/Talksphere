@@ -32,6 +32,7 @@ const Room = () => {
     const [openUpdateRoomForm, setOpenUpdateRoomForm] = useState(false);
 
     const { user } = useAuth();
+    // console.log("username", user);
 
     const theme = useTheme();
     const { roomId } = useParams();
@@ -91,8 +92,6 @@ const Room = () => {
             });
 
             setInputText("");
-
-            // roomData.room_messages.push(response.data);
         } catch (error) {
             console.error("Error sending message:", error);
         }
@@ -110,6 +109,11 @@ const Room = () => {
         } catch (error) {
             console.error("Error deleting room:", error);
         }
+    };
+
+    const handleUserProfile = () => {
+        let path = `/user/${roomData?.room?.host}`;
+        navigate(path);
     };
 
     const handleUpdateRoomForm = () => {
@@ -131,6 +135,13 @@ const Room = () => {
         }
     };
 
+    const styles = (theme) => ({
+        notchedOutline: {
+            borderWidth: "1px",
+            borderColor: "yellow !important",
+        },
+    });
+
     return (
         <>
             {roomData && (
@@ -149,6 +160,7 @@ const Room = () => {
                             backgroundColor: theme.palette.background.default,
                             width: "75%",
                             pb: 1,
+                            borderRadius: "5px",
                         }}
                     >
                         <Box
@@ -157,8 +169,11 @@ const Room = () => {
                                 flexDirection: "row",
                                 justifyContent: "space-between",
                                 backgroundColor: theme.palette.primary.main,
+                                alignItems: "center",
                                 p: 1.5,
                                 width: "auto",
+                                borderTopLeftRadius: "5px",
+                                borderTopRightRadius: "5px",
                             }}
                         >
                             <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -181,28 +196,35 @@ const Room = () => {
                                     STUDY ROOM
                                 </Typography>
                             </Box>
-                            <Box sx={{ display: "flex", flexDirection: "row" }}>
-                                <IconButton onClick={handleUpdateRoomForm}>
-                                    <UpdateIcon
-                                        sx={{
-                                            color: theme.palette.primary
-                                                .contrastText,
-                                            paddingX: 1,
-                                        }}
-                                        fontSize="small"
-                                    />
-                                </IconButton>
-                                <IconButton onClick={deleteRoom}>
-                                    <DeleteIcon
-                                        sx={{
-                                            color: theme.palette.primary
-                                                .contrastText,
-                                            paddingX: 1,
-                                        }}
-                                        fontSize="small"
-                                    />
-                                </IconButton>
-                            </Box>
+                            {user.username === roomData?.room?.host && (
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                    }}
+                                >
+                                    <IconButton onClick={handleUpdateRoomForm}>
+                                        <UpdateIcon
+                                            sx={{
+                                                color: theme.palette.primary
+                                                    .contrastText,
+                                                paddingX: 1,
+                                            }}
+                                            fontSize="small"
+                                        />
+                                    </IconButton>
+                                    <IconButton onClick={deleteRoom}>
+                                        <DeleteIcon
+                                            sx={{
+                                                color: theme.palette.primary
+                                                    .contrastText,
+                                                paddingX: 1,
+                                            }}
+                                            fontSize="small"
+                                        />
+                                    </IconButton>
+                                </Box>
+                            )}
                         </Box>
 
                         <Box sx={{ m: 2, mt: 1, p: 2 }}>
@@ -268,19 +290,18 @@ const Room = () => {
                                     >
                                         {roomData?.room?.host?.toUpperCase()}
                                     </Typography>
-                                    <Button>
-                                        <Typography
-                                            component={Link}
-                                            sx={{
-                                                color: theme.palette.secondary
-                                                    .main,
-                                                textDecoration: "none",
-                                                fontSize: "15px",
-                                            }}
-                                        >
-                                            @{roomData?.room?.host}
-                                        </Typography>
-                                    </Button>
+                                    <Typography
+                                        component={Button}
+                                        sx={{
+                                            color: theme.palette.secondary.main,
+                                            textDecoration: "none",
+                                            p: 0,
+                                            fontSize: "12px",
+                                        }}
+                                        onClick={handleUserProfile}
+                                    >
+                                        @{roomData?.room?.host}
+                                    </Typography>
                                 </Box>
                             </Box>
                             <Typography
@@ -323,6 +344,7 @@ const Room = () => {
                                 display: "flex",
                                 flexDirection: "column",
                                 justifyContent: "space-between",
+                                borderRadius: "5px",
                             }}
                         >
                             <Box
@@ -376,6 +398,11 @@ const Room = () => {
                                         fullWidth
                                         onChange={handleTextChange}
                                         value={inputText}
+                                        sx={{
+                                            borderColor:
+                                                theme.palette.primary
+                                                    .contrastText,
+                                        }}
                                     />
                                 </Box>
                                 <Box sx={{ pl: 1 }}>
@@ -406,23 +433,25 @@ const Room = () => {
                                 backgroundColor: theme.palette.primary.main,
                                 p: 1.5,
                                 width: "auto",
+                                borderTopLeftRadius: "5px",
+                                borderTopRightRadius: "5px",
                             }}
                         >
                             <Typography
                                 sx={{
                                     ml: 1,
                                     color: theme.palette.primary.contrastText,
+                                    p: 0.8,
                                 }}
                             >
                                 PARTICIPANTS
                             </Typography>
                             <Typography
                                 sx={{
-                                    ml: 1,
                                     color: theme.palette.secondary.main,
+                                    p: 0.8,
                                 }}
                             >
-                                {" "}
                                 ({roomData?.room?.participants?.length} Joined)
                             </Typography>
                         </Box>
@@ -450,6 +479,7 @@ const Room = () => {
                         <UpdateRoomForm
                             handleRoomForm={handleRoomForm}
                             setRoomDetailsText={setRoomDetailsText}
+                            setOpenUpdateRoomForm={setOpenUpdateRoomForm}
                         />
                     </Modal>
                 </Box>

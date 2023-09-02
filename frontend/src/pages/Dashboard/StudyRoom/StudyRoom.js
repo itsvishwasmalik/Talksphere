@@ -29,7 +29,7 @@ const StudyRoom = () => {
         }
     };
 
-    console.log("rooms", rooms);
+    // console.log("rooms", rooms);
 
     const handleRoomForm = () => {
         setOpenRoomForm(!openRoomForm);

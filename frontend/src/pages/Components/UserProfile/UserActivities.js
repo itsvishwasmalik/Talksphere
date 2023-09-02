@@ -5,19 +5,19 @@ import { getAvatarColors, getTimeDifference } from "../../../utils";
 import { useTheme } from "@emotion/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Activity from "../../Components/Activity";
+import Activity from "../Activity";
 
-const RecentAcivities = () => {
+const UserAcivities = ({ username }) => {
     const theme = useTheme();
 
     const [activities, setActivities] = useState([]);
 
     const fetchActivities = async () => {
-        const { data } = await axios.get(
-            "http://localhost:8000/new/recent_activities/"
-        );
+        const { data } = await axios.get("/new/recent_activities/");
         if (data) {
-            setActivities(data.activities);
+            setActivities(
+                data.activities.filter((activity) => activity.name === username)
+            );
         }
     };
 
@@ -75,4 +75,4 @@ const RecentAcivities = () => {
     );
 };
 
-export default RecentAcivities;
+export default UserAcivities;

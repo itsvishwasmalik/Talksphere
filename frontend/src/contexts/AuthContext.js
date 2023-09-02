@@ -42,8 +42,8 @@ export const AuthProvider = ({ children }) => {
                 dispatch(
                     handleLogin({
                         user: {
-                            id: data._id,
-                            username: data.name,
+                            id: data.id,
+                            username: data.username,
                             email: data.email,
                             isAdmin: data.is_staff,
                             accessToken: data.access_token,

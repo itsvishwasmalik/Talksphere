@@ -16,14 +16,21 @@ const Topic = ({ topic }) => {
                 py: 2,
             }}
         >
-            <Typography variant="p" noWrap sx={{ paddingLeft: 2, width: 100 }}>
+            <Typography
+                variant="p"
+                noWrap
+                sx={{
+                    paddingLeft: 2,
+                    width: 100,
+                }}
+            >
                 {topic.name}
             </Typography>
             <Box>
                 <Typography
                     noWrap
                     sx={{
-                        backgroundColor: theme.palette.secondary.main,
+                        backgroundColor: theme.palette.primary.main,
                         textAlign: "center",
                         borderRadius: "5px",
                         px: 2,
@@ -58,7 +65,6 @@ const BrowseTopics = () => {
         <Box
             sx={{
                 mt: 2,
-                p: 3,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -74,40 +80,41 @@ const BrowseTopics = () => {
                     justifyContent: "center",
                     alignContent: "center",
                     p: 1,
-                    mx: -2,
-                    mb: 1,
-                    borderRadius: "5px",
-                    backgroundColor: theme.palette.background.paper,
+                    borderTopLeftRadius: "5px",
+                    borderTopRightRadius: "5px",
+                    backgroundColor: theme.palette.primary.main,
                 }}
             >
                 <Typography
                     variant="p"
                     noWrap
-                    sx={{ paddingLeft: 2, color: "#FAFAFA" }}
+                    sx={{ paddingLeft: 3, ml: 2, p: 1, color: "#FAFAFA" }}
                 >
                     BROWSE TOPICS
                 </Typography>
             </Box>
 
-            {topics?.map((topic, index) => (
-                <Topic key={index} topic={topic} />
-            ))}
+            <Box sx={{ pt: 1, pb: 2, paddingX: 3 }}>
+                {topics?.map((topic, index) => (
+                    <Topic key={index} topic={topic} />
+                ))}
 
-            <Box
-                sx={{
-                    pt: 2,
-                }}
-            >
-                <Typography
-                    variant="p"
-                    noWrap
+                <Box
                     sx={{
-                        color: "#FAFAFA",
-                        pl: 2,
+                        pt: 2,
                     }}
                 >
-                    more...
-                </Typography>
+                    <Typography
+                        variant="p"
+                        noWrap
+                        sx={{
+                            color: "#FAFAFA",
+                            pl: 2,
+                        }}
+                    >
+                        more...
+                    </Typography>
+                </Box>
             </Box>
         </Box>
     );

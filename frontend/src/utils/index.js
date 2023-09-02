@@ -50,11 +50,12 @@ export const getAvatarColors = (char) => {
         "#9e9e9e",
         "#607d8b",
     ];
+
     if (char?.length > 0) {
         const charCode = char.charCodeAt(0);
         const index = charCode % colors.length;
         return colors[index];
     }
-    
+
     return colors[0];
 };

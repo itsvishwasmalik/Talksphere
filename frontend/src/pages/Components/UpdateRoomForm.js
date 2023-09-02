@@ -6,14 +6,13 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setRooms } from "../../store/slices/rooms";
 
-const UpdateRoomForm = ({ handleRoomForm, setRoomDetailsText }) => {
+const UpdateRoomForm = ({
+    handleRoomForm,
+    setRoomDetailsText,
+    setOpenUpdateRoomForm,
+}) => {
     const theme = useTheme();
-    const dispatch = useDispatch();
-    const rooms = useSelector((state) => state.rooms.rooms);
     const [inputText, setInputText] = useState({
         topic: "",
         name: "",
@@ -21,20 +20,9 @@ const UpdateRoomForm = ({ handleRoomForm, setRoomDetailsText }) => {
     });
     setRoomDetailsText(inputText);
 
-    // const handleClose = () => setOpenRoomForm(false);
-
-    // const handleRoomForm = async () => {
-    //     try {
-    //         const { data } = await axios.post(
-    //             `/new/update_room/${roomId}/`,
-    //             inputText
-    //         );
-    //         // dispatch(setRooms([data, ...rooms]));
-    //         setOpenRoomForm(false);
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+    const handleClose = () => {
+        setOpenUpdateRoomForm(false);
+    };
 
     return (
         <Box
@@ -55,7 +43,7 @@ const UpdateRoomForm = ({ handleRoomForm, setRoomDetailsText }) => {
                     }}
                 >
                     <ArrowBackIcon
-                        // onClick={handleClose}
+                        onClick={handleClose}
                         sx={{
                             ml: 1,
                             color: theme.palette.primary.contrastText,
@@ -144,13 +132,13 @@ const UpdateRoomForm = ({ handleRoomForm, setRoomDetailsText }) => {
                     </Button>
                     <Button
                         variant="contained"
-                        // onClick={handleClose}
                         sx={{
                             backgroundColor: theme.palette.primary.main,
                             ":hover": {
                                 backgroundColor: theme.palette.primary.light,
                             },
                         }}
+                        onClick={handleClose}
                     >
                         <Typography sx={{ fontSize: "12px" }}>
                             Cancel

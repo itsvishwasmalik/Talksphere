@@ -1,14 +1,21 @@
 import React from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getAvatarColors, getTimeDifference } from "../../../utils";
 import { useTheme } from "@emotion/react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import useAuth from "../../../hooks/useAuth";
 
 const Message = ({ room_message, handleMessageDelete }) => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const handleUserProfile = () => {
+        let path = `/user/${room_message?.user}`;
+        navigate(path);
+    };
 
     return (
         <Box
@@ -56,11 +63,14 @@ const Message = ({ room_message, handleMessageDelete }) => {
                         <Box>
                             <Box sx={{ marginLeft: "10px" }}>
                                 <Typography
-                                    component={Link}
+                                    component={Button}
                                     sx={{
                                         textDecoration: "none",
                                         color: theme.palette.secondary.main,
+                                        p: 0,
+                                        fontSize: "14px",
                                     }}
+                                    onClick={handleUserProfile}
                                 >
                                     @{room_message?.user}
                                 </Typography>
@@ -79,14 +89,18 @@ const Message = ({ room_message, handleMessageDelete }) => {
                             </Box>
                         </Box>
                     </Box>
-                    <IconButton
-                        sx={{ color: theme.palette.grey.grey400 }}
-                        size="small"
-                        aria-label="delete"
-                        onClick={() => handleMessageDelete(room_message?.id)}
-                    >
-                        <DeleteIcon fontSize="small" />
-                    </IconButton>
+                    {user.username === room_message?.user && (
+                        <IconButton
+                            sx={{ color: theme.palette.grey.grey400 }}
+                            size="small"
+                            aria-label="delete"
+                            onClick={() =>
+                                handleMessageDelete(room_message?.id)
+                            }
+                        >
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
+                    )}
                 </Box>
 
                 <Box

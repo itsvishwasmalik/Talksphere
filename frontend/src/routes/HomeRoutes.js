@@ -4,6 +4,7 @@ import User from "../pages/User";
 import NotFound from "../utils/NotFound";
 import AuthGuard from "./route-guards/AuthGuard";
 import Room from "../pages/Components/Room";
+import UserProfile from "../pages/Components/UserProfile";
 
 const HomeRoute = {
     path: "/",
@@ -25,7 +26,7 @@ const RoomRoute = {
     path: "/new/get_room/:roomId",
     element: (
         <AuthGuard>
-            <SearchBar/>
+            <SearchBar />
             <Room />
         </AuthGuard>
     ),
@@ -35,7 +36,7 @@ const RoomRoute = {
     //         element: <Home />,
     //     },
     // ],
-}
+};
 
 const UserRoute = {
     path: "/user",
@@ -43,6 +44,16 @@ const UserRoute = {
         <AuthGuard>
             <SearchBar />
             <User />
+        </AuthGuard>
+    ),
+};
+
+const UserProfileRoute = {
+    path: "/user/:username",
+    element: (
+        <AuthGuard>
+            <SearchBar />
+            <UserProfile />
         </AuthGuard>
     ),
 };
@@ -57,6 +68,12 @@ const NotFoundRoute = {
     ),
 };
 
-const HomeRoutes = [HomeRoute, RoomRoute, UserRoute, NotFoundRoute];
+const HomeRoutes = [
+    HomeRoute,
+    RoomRoute,
+    UserRoute,
+    NotFoundRoute,
+    UserProfileRoute,
+];
 
 export default HomeRoutes;

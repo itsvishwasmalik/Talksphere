@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -13,11 +13,15 @@ import { useNavigate } from "react-router-dom";
 
 const SingleRoomHeader = ({ room }) => {
     const theme = useTheme();
-    const navigate = useNavigate(); 
-    const routeChange = () =>{ 
-        let path = `/new/get_room/${room.id}`; 
+    const navigate = useNavigate();
+    const routeChange = () => {
+        let path = `/new/get_room/${room.id}`;
         navigate(path);
-    }
+    };
+    const handleUserProfile = () => {
+        let path = `/user/${room?.host}`;
+        navigate(path);
+    };
 
     return (
         <Card
@@ -54,18 +58,37 @@ const SingleRoomHeader = ({ room }) => {
                             </Avatar>
                             <Box sx={{ marginLeft: "10px" }}>
                                 <Typography
-                                    component={Link}
+                                    sx={{
+                                        color: theme.palette.primary
+                                            .contrastText,
+                                        fontSize: "13px",
+                                        pl: 0.5,
+                                    }}
+                                >
+                                    {room?.host?.toUpperCase()}
+                                </Typography>
+                                <Typography
+                                    component={Button}
                                     sx={{
                                         color: theme.palette.secondary.main,
                                         textDecoration: "none",
+                                        p: 0,
+                                        marginTop: "3px",
+                                        fontSize: "11px",
                                     }}
+                                    onClick={handleUserProfile}
                                 >
                                     @{room.host}
                                 </Typography>
                             </Box>
                         </Box>
                         <Box>
-                            <Typography sx={{ fontSize: "12px" }}>
+                            <Typography
+                                sx={{
+                                    fontSize: "12px",
+                                    color: theme.palette.grey.grey300,
+                                }}
+                            >
                                 {getTimeDifference(room.created)} ago
                             </Typography>
                         </Box>
@@ -74,7 +97,10 @@ const SingleRoomHeader = ({ room }) => {
                         gutterBottom
                         variant="h6"
                         component="div"
-                        sx={{ padding: "10px 0px 10px 20px" }}
+                        sx={{
+                            padding: "20px 0px 20px 20px",
+                            color: theme.palette.primary.contrastText,
+                        }}
                     >
                         {room.name}
                     </Typography>
@@ -96,11 +122,19 @@ const SingleRoomHeader = ({ room }) => {
                                 alignItems: "center",
                             }}
                         >
-                            <PeopleAltIcon />
+                            <PeopleAltIcon
+                                sx={{
+                                    color: theme.palette.primary.contrastText,
+                                }}
+                            />
                             <Box sx={{ marginLeft: "10px" }}>
                                 <Typography
                                     component={Link}
-                                    sx={{ color: "#E5E5E5", fontSize: "12px" }}
+                                    sx={{
+                                        color: theme.palette.primary
+                                            .contrastText,
+                                        fontSize: "12px",
+                                    }}
                                 >
                                     {room.participants} Joined
                                 </Typography>
@@ -108,13 +142,18 @@ const SingleRoomHeader = ({ room }) => {
                         </Box>
                         <Box
                             sx={{
-                                backgroundColor: theme.palette.background.paper,
+                                backgroundColor: theme.palette.primary.main,
                                 borderRadius: "10px",
                                 padding: "5px 15px 5px 15px",
                                 paddingRight: "15px",
                             }}
                         >
-                            <Typography sx={{ fontSize: "12px" }}>
+                            <Typography
+                                sx={{
+                                    fontSize: "12px",
+                                    color: theme.palette.primary.contrastText,
+                                }}
+                            >
                                 {room.topic}
                             </Typography>
                         </Box>

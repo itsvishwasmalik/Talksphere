@@ -26,8 +26,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 #     })
 
 def get_user_from_access_token(request):
-    access_token = request.headers.get('Authorization').split(' ')[1]
-    user = RefreshToken(access_token).payload['user_id']
+    # access_token = request.headers.get('Authorization').split(' ')[1]
+    user = RefreshToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkzMTU3MzYwLCJpYXQiOjE2OTMxNTcwNjAsImp0aSI6ImYzM2Y5MGFlOGFmMTRmYmZhMDQ4NzIyN2E5NzJkZTNlIiwidXNlcl9pZCI6MX0.swbPfN2BJRaQpDx1YrF7kE1hxS58_9TV5Q4qIQalMyQ").payload['user_id']
     print(user)
     return user
 
@@ -123,6 +123,8 @@ def create_room(request):
     # print(user)
 
     user = User.objects.get(username='whitedevil')
+
+    # user = get_user_from_access_token(request)
 
     topic, created = Topic.objects.get_or_create(name=topic_name)
 
@@ -230,6 +232,7 @@ def get_recent_activities(request):
         activities_data.append({
             'name': activity.user.username,
             'room': activity.room.name,
+            'room_id': activity.room.id,
             'message': activity.body,
             'created': activity.created
         })
@@ -237,4 +240,15 @@ def get_recent_activities(request):
             
     return JsonResponse({
         'activities': activities_data
+    })
+
+@api_view(['POST'])
+def get_user_details(request):
+    username = request.data.get('username')
+    user = User.objects.get(username=username)
+    return JsonResponse({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'is_staff':user.is_staff,
     })

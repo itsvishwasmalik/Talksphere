@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from base.views_auth import registerUser, loginUser
-from base.views_rooms import get_topic_rooms, get_recent_activities, get_browse_topics, create_room, get_room, update_room, delete_room, delete_message
+from base.views_rooms import get_topic_rooms, get_recent_activities, get_browse_topics, create_room, get_room, update_room, delete_room, delete_message, get_user_details
 
 urlpatterns = [
     path('login/', views.loginPage, name="login"),
@@ -26,5 +26,6 @@ urlpatterns = [
     path("new/get_room/<int:pk>/",get_room, name="get_room"),
     path("new/update_room/<int:pk>/",update_room, name="update_room"),
     path("new/delete_room/<int:pk>/",delete_room, name="delete_room"),
-    path("new/delete_message/<int:pk>/",delete_message, name="delete_message")
+    path("new/delete_message/<int:pk>/",delete_message, name="delete_message"),
+    path("new/get_user_details/", get_user_details, name="get_user_details"),
 ]
