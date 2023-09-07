@@ -10,7 +10,7 @@ const User = () => {
     return (
         <div sx={{ flexGrow: 1, padding: theme.spacing(2) }}>
             <Paper>
-                <Grid container spacing={2} alignItems="center">
+                <Grid container='true' spacing={2} alignItems="center">
                     <Grid item>
                         <Avatar
                             className={{

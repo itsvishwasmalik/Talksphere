@@ -10,14 +10,15 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const drawerWidth = 240;
 
 const Drawer = ({ open, onClose }) => {
     const drawerRef = React.useRef(null);
-
     const getParent = () => drawerRef.current?.parentElement;
-
+    const {user} = useAuth();
+    
     return (
         <MUIDrawer
             variant="temporary"
@@ -67,14 +68,15 @@ const Drawer = ({ open, onClose }) => {
                 </IconButton>
             </Box>
             <Divider />
-            <List>{mainListItems}</List>
+            <List><MainListItems user={user} /></List>
         </MUIDrawer>
     );
 };
 
 export default Drawer;
 
-export const mainListItems = (
+export const MainListItems = ({user}) => {
+    return(
     <Box>
         <Link to={`/home`} style={{ textDecoration: "none", color: "inherit" }}>
             <ListItem button>
@@ -84,7 +86,7 @@ export const mainListItems = (
                 <ListItemText primary="Home" />
             </ListItem>
         </Link>
-        <Link to={`/user`} style={{ textDecoration: "none", color: "inherit" }}>
+        <Link to={`/user/${user.username}`} style={{ textDecoration: "none", color: "inherit" }}>
             <ListItem button>
                 <ListItemIcon>
                     <PeopleIcon />
@@ -93,4 +95,4 @@ export const mainListItems = (
             </ListItem>
         </Link>
     </Box>
-);
+)};

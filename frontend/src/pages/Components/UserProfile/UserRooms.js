@@ -1,53 +1,15 @@
-import { Box, Modal } from "@mui/material";
+import { Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import SingleRoomHeader from "../../Dashboard/StudyRoom/SingleRoomHeader";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { useTheme } from "@emotion/react";
-import RoomForm from "../../Components/RoomForm";
 import Avatar from "@mui/material/Avatar";
 import Loader from "../../../utils/Loader";
 import { getAvatarColors } from "../../../utils";
 
-const UserRooms = ({ username }) => {
-    const [userRooms, setUserRooms] = useState([]);
-    const [userDetails, setUserDetails] = useState({});
+const UserRooms = ({ userRooms, userDetails }) => {
     const theme = useTheme();
-    // const rooms = useSelector((state) => state.rooms.rooms);
-    // console.log("rooms", rooms);
     const [loading, setLoading] = useState(false);
-    const [openRoomForm, setOpenRoomForm] = useState(false);
-
-    const fetchRooms = async () => {
-        try {
-            setLoading(true);
-            const { data } = await axios.get("/new/rooms/");
-            setUserRooms(data.rooms.filter((room) => room.host === username));
-            setLoading(false);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    const fetchUserDetails = async () => {
-        try {
-            setLoading(true);
-            const { data } = await axios.post("/new/get_user_details/", {
-                username: username,
-            });
-            setUserDetails(data);
-            setLoading(false);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    console.log("userDetails", userDetails);
-
-    useEffect(() => {
-        fetchRooms();
-        fetchUserDetails();
-    }, []);
 
     return (
         <>
@@ -133,19 +95,6 @@ const UserRooms = ({ username }) => {
                     <SingleRoomHeader key={index} room={room} />
                 ))}
             </Box>
-
-            <Modal
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-                closeAfterTransition
-                open={openRoomForm}
-                onClose={() => !openRoomForm}
-            >
-                <RoomForm setOpenRoomForm={setOpenRoomForm} />
-            </Modal>
         </>
     );
 };

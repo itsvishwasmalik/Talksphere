@@ -1,29 +1,15 @@
-import { Avatar, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import { getAvatarColors, getTimeDifference } from "../../../utils";
 import { useTheme } from "@emotion/react";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import Activity from "../Activity";
 
-const UserAcivities = ({ username }) => {
+const UserAcivities = ({ userActivities }) => {
+    // console.log(username);
     const theme = useTheme();
+    // const rooms = useSelector((state) => state.rooms.rooms);
+    // console.log(rooms);
 
-    const [activities, setActivities] = useState([]);
 
-    const fetchActivities = async () => {
-        const { data } = await axios.get("/new/recent_activities/");
-        if (data) {
-            setActivities(
-                data.activities.filter((activity) => activity.name === username)
-            );
-        }
-    };
-
-    useEffect(() => {
-        fetchActivities();
-    }, []);
     return (
         <Box
             sx={{
@@ -67,7 +53,7 @@ const UserAcivities = ({ username }) => {
                 </Box>
             </Box>
             <Box sx={{ pt: 1, pb: 2, paddingX: 3 }}>
-                {activities?.map((activity, index) => (
+                {userActivities?.slice(0,5).map((activity, index) => (
                     <Activity key={index} activity={activity} />
                 ))}
             </Box>

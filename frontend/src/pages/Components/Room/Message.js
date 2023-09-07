@@ -21,7 +21,10 @@ const Message = ({ room_message, handleMessageDelete }) => {
         <Box
             sx={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection:
+                    user.username === room_message?.user
+                        ? "row-reverse"
+                        : "row",
                 paddingX: 5,
                 paddingY: 3,
             }}
@@ -32,7 +35,7 @@ const Message = ({ room_message, handleMessageDelete }) => {
                     marginRight: 1,
                 }}
             />
-            <Box sx={{ width: "98%", p: 1 }}>
+            <Box sx={{ width: "85%", p: 1 }}>
                 <Box
                     sx={{
                         display: "flex",

@@ -50,7 +50,7 @@ const Participant = ({ participant }) => {
                         fontSize: "12px",
                         p: 0,
                     }}
-                    onclick={handleUserProfile}
+                    onClick={handleUserProfile}
                 >
                     @{participant}
                 </Typography>

@@ -221,11 +221,11 @@ def get_topic_rooms(request):
     return JsonResponse({
         'rooms': rooms_data
     })
+    
 
 @api_view(['GET'])
 def get_recent_activities(request):
     activities = Message.objects.all()[0:5]
-
     activities_data = []
 
     for activity in activities:
@@ -237,18 +237,31 @@ def get_recent_activities(request):
             'created': activity.created
         })
 
-            
     return JsonResponse({
         'activities': activities_data
     })
+
 
 @api_view(['POST'])
 def get_user_details(request):
     username = request.data.get('username')
     user = User.objects.get(username=username)
+    activities = Message.objects.filter(user__username=username).all()[0:5]
+    activities_data = []
+
+    for activity in activities:
+        activities_data.append({
+            'name': activity.user.username,
+            'room': activity.room.name,
+            'room_id': activity.room.id,
+            'message': activity.body,
+            'created': activity.created
+        })
+
     return JsonResponse({
         'id': user.id,
         'username': user.username,
         'email': user.email,
         'is_staff':user.is_staff,
+        'activities': activities_data,
     })

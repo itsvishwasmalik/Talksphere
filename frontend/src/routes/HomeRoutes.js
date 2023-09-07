@@ -30,12 +30,6 @@ const RoomRoute = {
             <Room />
         </AuthGuard>
     ),
-    // children: [
-    //     {
-    //         path: "getroom",
-    //         element: <Home />,
-    //     },
-    // ],
 };
 
 const UserRoute = {

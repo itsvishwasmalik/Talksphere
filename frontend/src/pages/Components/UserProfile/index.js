@@ -1,20 +1,44 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
-import StudyRoom from "../../Dashboard/StudyRoom/StudyRoom";
+import { useEffect, useState } from "react";
 import BrowseTopics from "../../Dashboard/BrowseTopics/BrowseTopics";
-import RecentAcivities from "../../Dashboard/RecentActivities/RecentActivities";
 import { useTheme } from "@emotion/react";
-import { useSelector } from "react-redux";
 import UserRooms from "./UserRooms";
 import UserActivities from "./UserActivities";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
 
 const UserProfile = () => {
     const theme = useTheme();
     const { username } = useParams();
+    const [userDetails, setUserDetails] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    // useEffect(() => {
+    //     document.title = "Home";
+    // }, []);
+
+    const fetchUserDetails = async () => {
+        try {
+            setLoading(true);
+            const { data } = await axios.post("/new/get_user_details/", {
+                username: username,
+            });
+            setUserDetails(data);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const rooms = useSelector((state) => state.rooms.rooms);
+    console.log('rooms--------->', rooms)
+    const userRooms = rooms.filter((room) => room.host === userDetails.username);
+
     useEffect(() => {
-        document.title = "Home";
-    }, []);
+        fetchUserDetails();
+    }, [username]);
 
     return (
         <Box
@@ -32,10 +56,10 @@ const UserProfile = () => {
                 <BrowseTopics />
             </Box>
             <Box sx={{ margin: "0px 5px 0px 5px", padding: 0, width: "50%" }}>
-                <UserRooms username={username} />
+                <UserRooms userRooms={userRooms} userDetails={userDetails} />
             </Box>
             <Box sx={{ margin: "0px 10px 0px 5px", padding: 0, width: "25%" }}>
-                <UserActivities username={username} />
+                <UserActivities userActivities={userDetails?.activities} />
             </Box>
         </Box>
     );

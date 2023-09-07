@@ -19,6 +19,7 @@ import { setMode } from "../store/slices/theme";
 import Drawer from "./Drawer";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -105,6 +106,13 @@ const SearchBar = () => {
         dispatch(setMode(!mode));
     };
 
+    const {user} = useAuth();
+    const navigate = useNavigate();
+    const handleProfile = () => {
+        let path = `/user/${user.username}`;
+        navigate(path);
+    }
+
     const menuId = "primary-search-account-menu";
     const renderMenu = (
         <Menu
@@ -122,7 +130,7 @@ const SearchBar = () => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleProfile}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>

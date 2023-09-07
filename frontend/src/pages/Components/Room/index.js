@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Avatar from "@mui/material/Avatar";
-import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Fab from "@mui/material/Fab";
 import SendIcon from "@mui/icons-material/Send";
@@ -19,6 +18,8 @@ import Message from "./Message";
 import Participant from "./Participant";
 import Modal from "@mui/material/Modal";
 import UpdateRoomForm from "../UpdateRoomForm";
+import chatBg from "../../../assets/chat_bg.jpg";
+import { useSelector } from "react-redux";
 
 const Room = () => {
     const [roomData, setRoomData] = useState([]);
@@ -134,13 +135,6 @@ const Room = () => {
             console.log(err);
         }
     };
-
-    const styles = (theme) => ({
-        notchedOutline: {
-            borderWidth: "1px",
-            borderColor: "yellow !important",
-        },
-    });
 
     return (
         <>
@@ -339,8 +333,9 @@ const Room = () => {
                         <Box
                             sx={{
                                 backgroundColor: theme.palette.background.paper,
+                                backgroundImage: `url(${chatBg})`,
                                 m: 4,
-                                p: 2,
+                                p: 0,
                                 display: "flex",
                                 flexDirection: "column",
                                 justifyContent: "space-between",
@@ -363,8 +358,9 @@ const Room = () => {
                                     },
                                     "&::-webkit-scrollbar-thumb": {
                                         backgroundColor:
-                                            theme.palette.background.default,
-                                        outline: `1px solid ${theme.palette.background.default}`,
+                                            theme.palette.primary.main,
+                                        outline: `1px solid ${theme.palette.primary.main}`,
+                                        borderRadius: "5px",
                                     },
                                 }}
                             >
@@ -383,12 +379,16 @@ const Room = () => {
                             {/* Message Input */}
 
                             <Box
-                                container
+                                container='true'
                                 style={{
                                     padding: "20px",
                                     display: "flex",
                                     flexDirection: "row",
                                     justifyContent: "space-between",
+                                    backgroundColor:
+                                        theme.palette.background.paper,
+                                    borderTopLeftRadius: "10px",
+                                    borderTopRightRadius: "10px",
                                 }}
                             >
                                 <Box sx={{ width: "98%" }}>
@@ -405,7 +405,11 @@ const Room = () => {
                                         }}
                                     />
                                 </Box>
-                                <Box sx={{ pl: 1 }}>
+                                <Box
+                                    sx={{
+                                        pl: 1,
+                                    }}
+                                >
                                     <Fab
                                         color="primary"
                                         aria-label="add"
@@ -476,11 +480,13 @@ const Room = () => {
                         open={openUpdateRoomForm}
                         onClose={() => !openUpdateRoomForm}
                     >
-                        <UpdateRoomForm
-                            handleRoomForm={handleRoomForm}
-                            setRoomDetailsText={setRoomDetailsText}
-                            setOpenUpdateRoomForm={setOpenUpdateRoomForm}
-                        />
+                        <Box>
+                            <UpdateRoomForm
+                                handleRoomForm={handleRoomForm}
+                                setRoomDetailsText={setRoomDetailsText}
+                                setOpenUpdateRoomForm={setOpenUpdateRoomForm}
+                            />
+                        </Box>
                     </Modal>
                 </Box>
             )}

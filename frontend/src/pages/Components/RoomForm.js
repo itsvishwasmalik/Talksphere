@@ -14,7 +14,7 @@ const RoomForm = ({ setOpenRoomForm }) => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const rooms = useSelector((state) => state.rooms.rooms);
-    // console.log("rooms from redux", rooms);
+    console.log("rooms from redux", rooms);
     const [inputText, setInputText] = useState({
         topic: "",
         name: "",

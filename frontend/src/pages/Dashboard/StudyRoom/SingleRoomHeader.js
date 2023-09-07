@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -16,10 +16,6 @@ const SingleRoomHeader = ({ room }) => {
     const navigate = useNavigate();
     const routeChange = () => {
         let path = `/new/get_room/${room.id}`;
-        navigate(path);
-    };
-    const handleUserProfile = () => {
-        let path = `/user/${room?.host}`;
         navigate(path);
     };
 
@@ -68,7 +64,7 @@ const SingleRoomHeader = ({ room }) => {
                                     {room?.host?.toUpperCase()}
                                 </Typography>
                                 <Typography
-                                    component={Button}
+                                    component={Link}
                                     sx={{
                                         color: theme.palette.secondary.main,
                                         textDecoration: "none",
@@ -76,7 +72,6 @@ const SingleRoomHeader = ({ room }) => {
                                         marginTop: "3px",
                                         fontSize: "11px",
                                     }}
-                                    onClick={handleUserProfile}
                                 >
                                     @{room.host}
                                 </Typography>

@@ -2,7 +2,6 @@ import React from "react";
 import { useTheme } from "@emotion/react";
 import { getAvatarColors, getTimeDifference } from "../../utils";
 import { Box, Avatar, Typography } from "@mui/material";
-import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 

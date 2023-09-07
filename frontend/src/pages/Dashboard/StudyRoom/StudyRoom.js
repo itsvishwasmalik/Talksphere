@@ -1,4 +1,4 @@
-import { Backdrop, Box, Modal } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -111,7 +111,9 @@ const StudyRoom = () => {
                 open={openRoomForm}
                 onClose={() => !openRoomForm}
             >
-                <RoomForm setOpenRoomForm={setOpenRoomForm} />
+                <Box>
+                    <RoomForm setOpenRoomForm={setOpenRoomForm} />
+                </Box>
             </Modal>
         </>
     );
