@@ -51,11 +51,25 @@ export const AuthProvider = ({ children }) => {
                         },
                     })
                 );
+                dispatch(
+                    openSnackbar({
+                        open:true,
+                        message: 'Logged in successfully !!',
+                        variant: 'alert',
+                        alert:{
+                            severity: 'success',
+                        }
+                    })
+                )
             } else {
                 dispatch(
                     openSnackbar({
                         open: true,
                         message: response.response.data.message,
+                        variant: 'alert',
+                        alert:{
+                            severity: 'error',
+                        }
                     })
                 );
             }
@@ -65,6 +79,10 @@ export const AuthProvider = ({ children }) => {
                 openSnackbar({
                     open: true,
                     message: error.message,
+                    variant: 'alert',
+                    alert:{
+                        severity: 'error',
+                    }
                 })
             );
             return Promise.reject(error);
@@ -73,6 +91,16 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         dispatch(handleLogout());
+        dispatch(
+            openSnackbar({
+                open: 'true',
+                message: 'See you soon !!!',
+                variant: 'alert',
+                alert:{
+                    severity: 'success',
+                }
+            })
+        )
     };
 
     const register = async (username, email, password) => {
@@ -96,11 +124,25 @@ export const AuthProvider = ({ children }) => {
                         },
                     })
                 );
+                dispatch(
+                    openSnackbar({
+                        open:true,
+                        message: 'Signed up successfully !!',
+                        variant: 'alert',
+                        alert:{
+                            severity: 'success',
+                        }
+                    })
+                )
             } else {
                 dispatch(
                     openSnackbar({
                         open: true,
                         message: response.response.data.message,
+                        variant: 'alert',
+                        alert:{
+                            severity: 'warning',
+                        }
                     })
                 );
             }
@@ -110,6 +152,10 @@ export const AuthProvider = ({ children }) => {
                 openSnackbar({
                     open: true,
                     message: error.response.data.message,
+                    variant: 'alert',
+                    alert:{
+                        severity: 'error',
+                    }
                 })
             );
         }

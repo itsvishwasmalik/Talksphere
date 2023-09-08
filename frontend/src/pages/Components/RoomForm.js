@@ -9,6 +9,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setRooms } from "../../store/slices/rooms";
+import { openSnackbar } from "../../store/slices/snackbar";
 
 const RoomForm = ({ setOpenRoomForm }) => {
     const theme = useTheme();
@@ -28,7 +29,27 @@ const RoomForm = ({ setOpenRoomForm }) => {
             const { data } = await axios.post("/new/create_room/", inputText);
             dispatch(setRooms([data, ...rooms]));
             setOpenRoomForm(false);
+            dispatch(
+                openSnackbar({
+                    open: true,
+                    message: "Room Created Successfully",
+                    variant: 'alert',
+                    alert:{
+                        severity: 'success',
+                    }
+                })
+            );
         } catch (err) {
+            dispatch(
+                openSnackbar({
+                    open: true,
+                    message: err.response.data.message,
+                    variant: 'alert',
+                    alert: {
+                        severity: 'error',
+                    }
+                })
+            )
             console.log(err);
         }
     };
@@ -120,24 +141,21 @@ const RoomForm = ({ setOpenRoomForm }) => {
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
                     <Button
+                        autoFocus
                         variant="contained"
+                        type="submit"
                         onClick={handleRoomForm}
+                        // ref={(buttonRef) => (this.buttonRef = buttonRef)}
                         sx={{
                             backgroundColor: theme.palette.secondary.main,
                             ":hover": {
                                 backgroundColor: theme.palette.secondary.light,
                             },
                             marginX: 2,
+                            color: theme.palette.secondary.contrastText,
                         }}
                     >
-                        <Typography
-                            sx={{
-                                color: theme.palette.secondary.contrastText,
-                                fontSize: "12px",
-                            }}
-                        >
-                            Submit
-                        </Typography>
+                        Submit
                     </Button>
                     <Button
                         variant="contained"

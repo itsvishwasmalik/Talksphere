@@ -1,15 +1,15 @@
-import { combineReducers } from "redux";
+import { combineReducers} from "redux";
 import snackbarReducer from "./slices/snackbar";
 import accountReducer from "./account";
 import storage from "redux-persist/lib/storage";
-import { persistReducer } from "redux-persist";
+import { persistReducer} from "redux-persist";
 import themeReducer from "./slices/theme";
 import roomsReducer from "./slices/rooms";
 
 const rootPersistConfig = {
     key: "root",
     storage: storage,
-    whitelist: ["account", "theme", "cart", "user"],
+    whitelist: ["account", "theme", "cart", "user" , "rooms"],
 };
 
 const reducer = combineReducers({

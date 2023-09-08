@@ -19,24 +19,23 @@ import Participant from "./Participant";
 import Modal from "@mui/material/Modal";
 import UpdateRoomForm from "../UpdateRoomForm";
 import chatBg from "../../../assets/chat_bg.jpg";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../../store/slices/snackbar";
 
 const Room = () => {
     const [roomData, setRoomData] = useState([]);
     const [inputText, setInputText] = useState("");
+    const [openUpdateRoomForm, setOpenUpdateRoomForm] = useState(false);
     const [roomDetailsText, setRoomDetailsText] = useState({
         topic: "",
         name: "",
         description: "",
     });
 
-    const [openUpdateRoomForm, setOpenUpdateRoomForm] = useState(false);
-
     const { user } = useAuth();
-    // console.log("username", user);
-
     const theme = useTheme();
     const { roomId } = useParams();
+    const dispatch = useDispatch();
 
     const handleMessageDelete = async (id) => {
         try {
@@ -49,9 +48,16 @@ const Room = () => {
                     ),
                 };
             });
-            // roomData.room_messages = roomData.room_messages.filter(
-            //     (room_message) => room_message.id !== id
-            // );
+            dispatch(
+                openSnackbar({
+                    open:'true',
+                    message: "Message deleted successfully!",
+                    variant: 'alert',
+                    alert:{
+                        severity: 'info',
+                    }
+                }),
+            )
         } catch (error) {
             console.error("Error deleting message:", error);
         }
@@ -106,8 +112,27 @@ const Room = () => {
         try {
             const response = await axios.post(`/new/delete_room/${roomId}/`);
             homeRouteChange();
-            console.log("API response:", response.data);
+            dispatch(
+                openSnackbar({
+                    open:'true',
+                    message: "Room deleted successfully!",
+                    variant: 'alert',
+                    alert:{
+                        severity: 'success',
+                    }
+                }),
+            )
         } catch (error) {
+            dispatch(
+                openSnackbar({
+                    open:'true',
+                    message: "Error deleting room!",
+                    variant: 'alert',
+                    alert:{
+                        severity: 'error',
+                    }
+                }),
+            )
             console.error("Error deleting room:", error);
         }
     };
@@ -131,7 +156,27 @@ const Room = () => {
             roomData.room.topic = data.topic;
             roomData.room.description = data.description;
             setOpenUpdateRoomForm(!openUpdateRoomForm);
+            dispatch(
+                openSnackbar({
+                    open:'true',
+                    message: "Room details updated successfully!",
+                    variant: 'alert',
+                    alert:{
+                        severity: 'success',
+                    }
+                }),
+            )
         } catch (err) {
+            dispatch(
+                openSnackbar({
+                    open:'true',
+                    message: "Error updating room details!",
+                    variant: 'alert',
+                    alert:{
+                        severity: 'error',
+                    }
+                }),
+            )
             console.log(err);
         }
     };
