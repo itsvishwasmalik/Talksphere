@@ -9,7 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { getTimeDifference, getAvatarColors } from "../../../utils";
@@ -36,6 +36,19 @@ const Room = () => {
     const theme = useTheme();
     const { roomId } = useParams();
     const dispatch = useDispatch();
+    const sendRef = useRef(null);
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+          if (event.key === 'Enter') {
+            sendRef.current.click();
+          }
+        };
+        document.addEventListener('keydown', handleKeyPress)
+        return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+        };
+      }, []);
 
     const handleMessageDelete = async (id) => {
         try {
@@ -459,6 +472,7 @@ const Room = () => {
                                         color="primary"
                                         aria-label="add"
                                         onClick={handleSendClick}
+                                        ref={sendRef}
                                     >
                                         <SendIcon />
                                     </Fab>

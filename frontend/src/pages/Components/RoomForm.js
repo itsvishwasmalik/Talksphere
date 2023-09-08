@@ -15,7 +15,6 @@ const RoomForm = ({ setOpenRoomForm }) => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const rooms = useSelector((state) => state.rooms.rooms);
-    console.log("rooms from redux", rooms);
     const [inputText, setInputText] = useState({
         topic: "",
         name: "",
@@ -26,24 +25,43 @@ const RoomForm = ({ setOpenRoomForm }) => {
 
     const handleRoomForm = async () => {
         try {
-            const { data } = await axios.post("/new/create_room/", inputText);
-            dispatch(setRooms([data, ...rooms]));
+            const response = await axios.post("/new/create_room/", inputText);
+            if (response.data) {
+                const data = response.data;
+                dispatch(setRooms([data, ...rooms]));
+                setOpenRoomForm(false);
+                dispatch(
+                    openSnackbar({
+                        open: true,
+                        message: "Room Created Successfully",
+                        variant: 'alert',
+                        alert:{
+                            severity: 'success',
+                        }
+                    })
+                );
+            }
+            else
+            {
+                console.log(response)
+                setOpenRoomForm(false);
+                dispatch(
+                    openSnackbar({
+                        open: true,
+                        message: 'Please fill the required fields',
+                        variant: 'alert',
+                        alert: {
+                            severity: 'error',
+                        }
+                    })
+                )
+            }
+        } catch (err) {
             setOpenRoomForm(false);
             dispatch(
                 openSnackbar({
                     open: true,
-                    message: "Room Created Successfully",
-                    variant: 'alert',
-                    alert:{
-                        severity: 'success',
-                    }
-                })
-            );
-        } catch (err) {
-            dispatch(
-                openSnackbar({
-                    open: true,
-                    message: err.response.data.message,
+                    message: err.error,
                     variant: 'alert',
                     alert: {
                         severity: 'error',
@@ -95,7 +113,7 @@ const RoomForm = ({ setOpenRoomForm }) => {
                     <Box sx={{ paddingY: 2 }}>
                         <TextField
                             id="outlined-search"
-                            label="Enter a Topic"
+                            label="Enter a Topic*"
                             type="search"
                             fullWidth
                             value={inputText.topic}
@@ -110,7 +128,7 @@ const RoomForm = ({ setOpenRoomForm }) => {
                     <Box sx={{ paddingY: 2 }}>
                         <TextField
                             id="outlined-search"
-                            label="Room Name"
+                            label="Room Name*"
                             type="search"
                             fullWidth
                             value={inputText.name}

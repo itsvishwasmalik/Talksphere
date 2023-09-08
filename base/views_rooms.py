@@ -105,6 +105,11 @@ def create_room(request):
     topic_name = request.data.get('topic')
     room_name = request.data.get('name')
     room_description = request.data.get('description')
+
+    if not topic_name or not room_name:
+        return JsonResponse({
+            'error': 'Please fill the required fields'
+        }, status=status.HTTP_400_BAD_REQUEST)
     # user = get_user_from_access_token(request)
     # access_token = request.headers.get('Authorization').split(' ')[1]
     # authorization_header = request.headers.get('Authorization')
@@ -165,6 +170,12 @@ def update_room(request, pk):
     room.topic = topic
     room.name = request.data.get('name')
     room.description = request.data.get('description')
+
+    if not topic_name or not room.name:
+        return JsonResponse({
+            'error': 'Please fill the required fields'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
     room.save()
 
     return JsonResponse({

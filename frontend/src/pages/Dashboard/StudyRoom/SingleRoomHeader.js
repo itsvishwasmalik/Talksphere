@@ -15,7 +15,7 @@ const SingleRoomHeader = ({ room }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const routeChange = () => {
-        let path = `/new/get_room/${room.id}`;
+        let path = `/new/get_room/${room?.id}`;
         navigate(path);
     };
 
@@ -47,10 +47,10 @@ const SingleRoomHeader = ({ room }) => {
                         >
                             <Avatar
                                 sx={{
-                                    backgroundColor: getAvatarColors(room.host),
+                                    backgroundColor: getAvatarColors(room?.host),
                                 }}
                             >
-                                {room.host[0].toUpperCase()}
+                                {room?.host?.[0]?.toUpperCase()}
                             </Avatar>
                             <Box sx={{ marginLeft: "10px" }}>
                                 <Typography
@@ -73,7 +73,7 @@ const SingleRoomHeader = ({ room }) => {
                                         fontSize: "11px",
                                     }}
                                 >
-                                    @{room.host}
+                                    @{room?.host}
                                 </Typography>
                             </Box>
                         </Box>
@@ -84,7 +84,7 @@ const SingleRoomHeader = ({ room }) => {
                                     color: theme.palette.grey.grey300,
                                 }}
                             >
-                                {getTimeDifference(room.created)} ago
+                                {getTimeDifference(room?.created)} ago
                             </Typography>
                         </Box>
                     </Box>
@@ -97,7 +97,7 @@ const SingleRoomHeader = ({ room }) => {
                             color: theme.palette.primary.contrastText,
                         }}
                     >
-                        {room.name}
+                        {room?.name}
                     </Typography>
                     <Divider />
                     <Box
@@ -131,7 +131,7 @@ const SingleRoomHeader = ({ room }) => {
                                         fontSize: "12px",
                                     }}
                                 >
-                                    {room.participants} Joined
+                                    {room?.participants} Joined
                                 </Typography>
                             </Box>
                         </Box>
@@ -149,7 +149,7 @@ const SingleRoomHeader = ({ room }) => {
                                     color: theme.palette.primary.contrastText,
                                 }}
                             >
-                                {room.topic}
+                                {room?.topic}
                             </Typography>
                         </Box>
                     </Box>
