@@ -20,6 +20,9 @@ import Drawer from "./Drawer";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { setFilteredRooms } from "../store/slices/filteredRooms";
+import axios from "axios";
+
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -68,6 +71,26 @@ const SearchBar = () => {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const mode = useSelector((state) => state.theme.mode);
+    const rooms = useSelector((state) => state.rooms.rooms);
+    const filteredRooms = useSelector((state)=>state.filteredRooms.filteredRooms);
+
+    const handleSearch = (e) => {
+        const searchQuery = e.target.value;
+
+        if (searchQuery === "") {
+            dispatch(setFilteredRooms(rooms));
+            return;
+        }
+        
+        // Check if filteredRooms has been initialized before accessing it
+        if (filteredRooms) {
+            const filteredRoomsResult = filteredRooms.filter((room) => {
+                return room.name.toLowerCase().includes(searchQuery.toLowerCase());
+            });
+            dispatch(setFilteredRooms(filteredRoomsResult));
+        }
+    };
+
 
     const { logout } = useAuth();
 
@@ -131,7 +154,7 @@ const SearchBar = () => {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleProfile}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleProfile}>My account</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
     );
@@ -219,6 +242,7 @@ const SearchBar = () => {
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ "aria-label": "search" }}
+                            onChange={handleSearch}
                         />
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />

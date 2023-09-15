@@ -95,23 +95,37 @@ const Room = () => {
 
     const handleSendClick = async () => {
         try {
-            const { data } = await axios.post(`/new/get_room/${roomId}/`, {
-                body: inputText,
-            });
-
-            setRoomData((roomData) => {
-                return {
-                    ...roomData,
-                    room_messages: [data.message, ...roomData?.room_messages],
-                    participants: !roomData?.participants.includes(
-                        data.message.user
-                    )
-                        ? [data.message.user, ...roomData.participants]
-                        : roomData.participants,
-                };
-            });
-
-            setInputText("");
+            if(inputText.trim() === ""){
+                dispatch(
+                    openSnackbar({
+                        open:'true',
+                        message: "Please enter a message!",
+                        variant: 'alert',
+                        alert:{
+                            severity: 'error',
+                        }
+                    }),
+                )
+            }
+            else{
+                const { data } = await axios.post(`/new/get_room/${roomId}/`, {
+                    body: inputText,
+                });
+    
+                setRoomData((roomData) => {
+                    return {
+                        ...roomData,
+                        room_messages: [data.message, ...roomData?.room_messages],
+                        participants: !roomData?.participants.includes(
+                            data.message.user
+                        )
+                            ? [data.message.user, ...roomData.participants]
+                            : roomData.participants,
+                    };
+                });
+    
+                setInputText("");
+            }
         } catch (error) {
             console.error("Error sending message:", error);
         }

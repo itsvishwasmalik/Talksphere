@@ -5,25 +5,6 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
-# @api_view(['POST'])
-# def room(request, pk):
-#     room = Room.objects.get(id=pk)
-#     room_messages = room.message_set.all()
-#     participants = room.participants.all()
-
-#     if request.method == 'POST':
-#         message = Message.objects.create(
-#             user = request.user,
-#             room = room,
-#             body = request.POST.get('body')
-#         )
-#         room.particiants.add(request.user)
-
-#     return JsonResponse({
-#         'room': room,
-#         'room_messages': room_messages,
-#         'participants': participants
-#     })
 
 def get_user_from_access_token(request):
     # access_token = request.headers.get('Authorization').split(' ')[1]
@@ -99,9 +80,19 @@ def get_room(request, pk):
 #     }
 #     return JsonResponse(room_dict, status=status.HTTP_201_CREATED)
 
+# def get_user_from_(token):
+#     refresh_token = RefreshToken(request.headers.get('Authorization').split(' ')[1])
+#     user = User.objects.get(id=refresh_token.payload['user_id'])
+#     return user
 
 @api_view(['POST'])
 def create_room(request):
+
+    # refresh_token = RefreshToken(request.headers.get('Authorization').split(' ')[1])
+    print("request.headers", request.headers)
+    # print(refresh_token)
+    # print(refresh_token.payload['user_id'])
+
     topic_name = request.data.get('topic')
     room_name = request.data.get('name')
     room_description = request.data.get('description')
@@ -126,8 +117,14 @@ def create_room(request):
     # user = User.objects.get(id=refresh_token.payload['user_id'])
 
     # print(user)
+    # refresh_token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+    # refresh_token = request.data.get('refresh_token')
+    # token = RefreshToken(refresh_token)
+    # print(refresh_token.payload['user_id'])
 
     user = User.objects.get(username='whitedevil')
+
+    # user = User.objects.get(id=refresh_token.payload['user_id'])
 
     # user = get_user_from_access_token(request)
 

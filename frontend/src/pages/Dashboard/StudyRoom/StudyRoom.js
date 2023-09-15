@@ -18,26 +18,14 @@ const StudyRoom = () => {
     const [loading, setLoading] = useState(false);
     const [openRoomForm, setOpenRoomForm] = useState(false);
 
-    const fetchRooms = async () => {
-        try {
-            setLoading(true);
-            const { data } = await axios.get("/new/rooms/");
-            dispatch(setRooms(data.rooms));
-            setLoading(false);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
+    const filteredRooms = useSelector((state)=>state.filteredRooms.filteredRooms);
+    console.log('filteredRooms', filteredRooms)
     // console.log("rooms", rooms);
 
     const handleRoomForm = () => {
         setOpenRoomForm(!openRoomForm);
     };
 
-    useEffect(() => {
-        fetchRooms();
-    }, []);
 
     return (
         <>
@@ -96,7 +84,7 @@ const StudyRoom = () => {
                 </Button>
             </Box>
             <Box>
-                {rooms?.map((room, index) => (
+                {filteredRooms?.map((room, index) => (
                     <SingleRoomHeader key={index} room={room} />
                 ))}
             </Box>

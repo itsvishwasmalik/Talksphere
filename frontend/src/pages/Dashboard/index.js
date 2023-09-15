@@ -4,12 +4,52 @@ import StudyRoom from "./StudyRoom/StudyRoom";
 import BrowseTopics from "./BrowseTopics/BrowseTopics";
 import RecentAcivities from "./RecentActivities/RecentActivities";
 import { useTheme } from "@emotion/react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setRooms } from "../../store/slices/rooms";
+import { useState } from "react";
+import { setFilteredRooms } from "../../store/slices/filteredRooms";
 
 const Home = () => {
     const theme = useTheme();
     useEffect(() => {
         document.title = "Home";
     }, []);
+    const dispatch = useDispatch();
+    const rooms = useSelector((state) => state.rooms.rooms);
+    const filteredRooms = useSelector((state)=>state.filteredRooms.filteredRooms)
+    const [loading, setLoading] = useState(false);
+
+    const fetchRooms = async () => {
+        try {
+            setLoading(true);
+            const { data } = await axios.get("/new/rooms/");
+            dispatch(setRooms(data.rooms));
+            dispatch(setFilteredRooms(data.rooms));
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchRooms();
+    }, []);
+
+    // const fetchFilteredRooms = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const { data } = await axios.get("/new/rooms/");
+    //         dispatch(setFilteredRooms(data.filteredRooms));
+    //         setLoading(false);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     fetchFilteredRooms();
+    // }, []);
 
     return (
         <Box

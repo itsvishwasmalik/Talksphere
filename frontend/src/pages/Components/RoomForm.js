@@ -9,12 +9,14 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setRooms } from "../../store/slices/rooms";
+import { setFilteredRooms } from "../../store/slices/filteredRooms";
 import { openSnackbar } from "../../store/slices/snackbar";
 
 const RoomForm = ({ setOpenRoomForm }) => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const rooms = useSelector((state) => state.rooms.rooms);
+    const filteredRooms = useSelector((state)=>state.filteredRooms.filteredRooms);
     const [inputText, setInputText] = useState({
         topic: "",
         name: "",
@@ -25,30 +27,12 @@ const RoomForm = ({ setOpenRoomForm }) => {
 
     const handleRoomForm = async () => {
         try {
-            const response = await axios.post("/new/create_room/", inputText);
-            if (response.data) {
-                const data = response.data;
-                dispatch(setRooms([data, ...rooms]));
+            if (inputText.topic === "" || inputText.name === "") {
                 setOpenRoomForm(false);
                 dispatch(
                     openSnackbar({
                         open: true,
-                        message: "Room Created Successfully",
-                        variant: 'alert',
-                        alert:{
-                            severity: 'success',
-                        }
-                    })
-                );
-            }
-            else
-            {
-                console.log(response)
-                setOpenRoomForm(false);
-                dispatch(
-                    openSnackbar({
-                        open: true,
-                        message: 'Please fill the required fields',
+                        message: 'Topic and Name are required',
                         variant: 'alert',
                         alert: {
                             severity: 'error',
@@ -56,6 +40,26 @@ const RoomForm = ({ setOpenRoomForm }) => {
                     })
                 )
             }
+            else{
+                const response = await axios.post("/new/create_room/", inputText);
+                if (response.data) {
+                    const data = response.data;
+                    dispatch(setRooms([data, ...rooms]));
+                    dispatch(setFilteredRooms([data, ...filteredRooms]));
+                    setOpenRoomForm(false);
+                    dispatch(
+                        openSnackbar({
+                            open: true,
+                            message: "Room Created Successfully",
+                            variant: 'alert',
+                            alert:{
+                                severity: 'success',
+                            }
+                        })
+                    );
+                }
+            }
+            
         } catch (err) {
             setOpenRoomForm(false);
             dispatch(

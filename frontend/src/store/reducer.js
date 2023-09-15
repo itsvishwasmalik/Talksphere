@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer} from "redux-persist";
 import themeReducer from "./slices/theme";
 import roomsReducer from "./slices/rooms";
+import filteredRoomsReducer from "./slices/filteredRooms";
 
 const rootPersistConfig = {
     key: "root",
@@ -17,6 +18,7 @@ const reducer = combineReducers({
     snackbar: snackbarReducer,
     theme: themeReducer,
     rooms: roomsReducer,
+    filteredRooms : filteredRoomsReducer,
 });
 
 export default persistReducer(rootPersistConfig, reducer);
