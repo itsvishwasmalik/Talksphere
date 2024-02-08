@@ -23,19 +23,20 @@ This application is built with React, Material UI, and Django Rest Framework. It
 ![Screenshot from 2024-02-09 01-59-29](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/4c4b6088-aef6-4344-b923-1e4e89fb9d1c)
 
 ### Main Page
-![Screenshot from 2024-02-09 01-47-26](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/74f4a661-a896-4f8e-9f19-8a73966b5638)
+![Screenshot from 2024-02-09 02-06-22](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/6cd16100-8c6a-401c-b1e5-b897f5964afb)
 
 ### Chat Room
-![Screenshot from 2024-02-09 01-47-09](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/2aeb48cf-5f9c-4975-9ef5-dde880a35210)
+![Screenshot from 2024-02-09 02-06-53](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/9bc307f4-7959-4715-84b1-e75bc09177ec)
 
-### Logged in User and Recent Activities
-![Screenshot from 2024-02-09 01-47-40](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/a1a437ed-244f-4ab7-924e-2dc0c511e460)
+### Logged in User Account and Recent Activities
+![Screenshot from 2024-02-09 02-07-10](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/66bd20f0-8ee5-49d3-8e02-b5b17951c1db)
 
 ### Other Users Profile and Activities
-![Screenshot from 2024-02-09 01-48-13](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/77e6b321-538a-40f6-9db5-61d21a3624df)
+![Screenshot from 2024-02-09 02-07-47](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/4b93e460-a89b-4981-954d-a857c2520584)
 
 ### Create Room
-![image](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/8b4286f3-6375-47a6-9910-e23aba3ca611)
+![Screenshot from 2024-02-09 02-08-35](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/80fe0b99-2ce7-4d7d-a255-936b4cabd333)
 
 ### Update Room 
-![Screenshot from 2024-02-09 01-57-29](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/1d6e0a35-3a2f-41cb-9df5-84d2dc024222)
+![Screenshot from 2024-02-09 02-08-50](https://github.com/itsvishwasmalik/Talksphere/assets/97444195/10b99bf2-e439-44a5-b0a7-59234b103716)
+
